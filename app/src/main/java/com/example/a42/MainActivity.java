@@ -31,14 +31,16 @@ public class MainActivity extends AppCompatActivity {
 
     class LoadAppinfoTask extends AsyncTask<Integer,Integer, List<Appinfo>>
     {
-        @Override
-        protected List<Appinfo> doInBackground(Integer... integers) {
-            return null;
-        }
+
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
+        @Override
+        protected List<Appinfo> doInBackground(Integer... integers) {
+            return null;
+        }
+
     }
 }
