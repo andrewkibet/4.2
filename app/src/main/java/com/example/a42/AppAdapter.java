@@ -52,6 +52,11 @@ public class AppAdapter extends ArrayAdapter<Appinfo> {
                 versionName.setText(versionInfo);
             }
 
+            if (!TextUtils.isEmpty(current.info.packageName)){
+                TextView packageNameText = view.findViewById(R.id.app_packageid);
+                packageNameText.setText(current.info.packageName);
+            }
+
         } catch (PackageManager.NameNotFoundException e){
             e.printStackTrace();
         }
