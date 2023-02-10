@@ -30,12 +30,24 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LoadAppinfoTask loadAppinfoTask = new LoadAppinfoTask();
-                loadAppinfoTask.execute(PackageManager.GET_META_DATA);
 
+                refreshIt();
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LoadAppinfoTask loadAppinfoTask = new LoadAppinfoTask();
+        loadAppinfoTask.execute(PackageManager.GET_META_DATA);
+    }
+
+    private void refreshIt() {
+        LoadAppinfoTask loadAppinfoTask = new LoadAppinfoTask();
+        loadAppinfoTask.execute(PackageManager.GET_META_DATA);
+
     }
 
     class LoadAppinfoTask extends AsyncTask<Integer,Integer, List<Appinfo>>
@@ -63,9 +75,6 @@ public class MainActivity extends AppCompatActivity {
             app1.info = info;
             app1.label = (String) info.loadLabel(packageManager);
             apps.add(app1);
-
-
-
             return apps;
         }
 
