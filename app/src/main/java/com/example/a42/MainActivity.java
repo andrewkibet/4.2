@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             ApplicationInfo info = null; //I should recheck this line
             appinfo.info = info;
             appinfo.label = (String) info.loadLabel(packageManager);
+            app.add(app);
 
 
 
