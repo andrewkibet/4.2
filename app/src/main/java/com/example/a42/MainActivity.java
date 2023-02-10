@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected List<Appinfo> doInBackground(Integer... integers) {
 
-            List<Appinfo> app= new ArrayList<>();
+            List<Appinfo> apps= new ArrayList<>();
             PackageManager packageManager = getPackageManager();
             List<ApplicationInfo> infos = packageManager.getInstalledApplications(integers[0]);
 
@@ -56,15 +56,15 @@ public class MainActivity extends AppCompatActivity {
                 if (allsystemapps && (info.flags & ApplicationInfo.FLAG_SYSTEM)==1){
                     continue;
                 }
-            Appinfo appinfo = new Appinfo();
+            Appinfo app1 = new Appinfo();
             ApplicationInfo info = null; //I should recheck this line
-            appinfo.info = info;
-            appinfo.label = (String) info.loadLabel(packageManager);
-            app.add(app);
+            app1.info = info;
+            app1.label = (String) info.loadLabel(packageManager);
+            apps.add(app1);
 
 
 
-            return null;
+            return apps;
         }
 
         @Override
