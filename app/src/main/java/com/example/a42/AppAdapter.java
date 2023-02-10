@@ -30,6 +30,14 @@ public class AppAdapter extends ArrayAdapter<Appinfo> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
+        Appinfo current = apps.get(position);
+        View view = convertView;
+
+        if (view == null){
+            view = layoutInflater.inflate(R.layout.app_items,parent,false);
+        }
+
         return super.getView(position, convertView, parent);
     }
 }
