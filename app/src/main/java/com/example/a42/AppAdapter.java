@@ -3,6 +3,7 @@ package com.example.a42;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,12 @@ public class AppAdapter extends ArrayAdapter<Appinfo> {
 
         try {
             PackageInfo packageInfo = packageManager.getPackageInfo(current.info.packageName,0);
+
+            if (!TextUtils.isEmpty(packageInfo.versionName)){
+                String versionInfo = String.format("%",packageInfo.versionName);
+                TextView versionName = view.findViewById(R.id.app_Vid);
+                versionName.setText(versionInfo);
+            }
 
         } catch (PackageManager.NameNotFoundException e){
             e.printStackTrace();
