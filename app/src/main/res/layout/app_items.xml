@@ -5,6 +5,14 @@
     android:orientation="horizontal"
     android:padding="5dp"
     android:layout_height="wrap_content">
-    
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:src="@mipmap/ic_launcher_round"
+        android:id="@+id/icon_id"/>
+
 
 </LinearLayout>
