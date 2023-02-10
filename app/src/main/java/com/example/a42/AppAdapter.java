@@ -61,6 +61,6 @@ public class AppAdapter extends ArrayAdapter<Appinfo> {
             e.printStackTrace();
         }
 
-        return super.getView(position, convertView, parent);
+        return view;
     }
 }
