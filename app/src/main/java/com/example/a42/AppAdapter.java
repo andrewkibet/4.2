@@ -1,6 +1,7 @@
 package com.example.a42;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,13 @@ public class AppAdapter extends ArrayAdapter<Appinfo> {
         }
         TextView appTitle = view.findViewById(R.id.app_title);
         appTitle.setText(current.label);
-        
+
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(current.info.packageName,0);
+
+        } catch (PackageManager.NameNotFoundException e){
+            e.printStackTrace();
+        }
 
         return super.getView(position, convertView, parent);
     }
