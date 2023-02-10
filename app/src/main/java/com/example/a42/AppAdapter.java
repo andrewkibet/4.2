@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +38,9 @@ public class AppAdapter extends ArrayAdapter<Appinfo> {
         if (view == null){
             view = layoutInflater.inflate(R.layout.app_items,parent,false);
         }
+        TextView appTitle = view.findViewById(R.id.app_title);
+        appTitle.setText(current.label);
+        
 
         return super.getView(position, convertView, parent);
     }
