@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<Appinfo> appinfos) {
             super.onPostExecute(appinfos);
+            listView.setAdapter(new  AppAdapter(MainActivity.this,appinfos));
+            swipeRefreshLayout.setRefreshing(false);
+            Snackbar.make(listView,appinfos.size()+"application loaded", Snackbar.LENGTH_SHORT).show();
         }
     }
 }
