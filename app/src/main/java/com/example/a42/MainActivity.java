@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     ListView listView;
     boolean allsystemapps;
-    private ApplicationInfo info;
+    //private ApplicationInfo info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
