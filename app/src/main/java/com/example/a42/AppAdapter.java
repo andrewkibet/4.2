@@ -52,9 +52,9 @@ public class AppAdapter extends ArrayAdapter<Appinfo> {
             PackageInfo packageInfo = packageManager.getPackageInfo(current.info.packageName,0);
 
             if (!TextUtils.isEmpty(packageInfo.versionName)){
-                String versionInfo = format("%",packageInfo.versionName);
+                //String versionInfo = format("%",packageInfo.versionName);
                 TextView versionName = view.findViewById(R.id.app_Vid);
-                versionName.setText(versionInfo);
+               // versionName.setText(versionInfo);
             }
 
             if (!TextUtils.isEmpty(current.info.packageName)){
