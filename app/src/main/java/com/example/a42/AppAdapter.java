@@ -1,5 +1,7 @@
 package com.example.a42;
 
+import static java.lang.String.format;
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -50,7 +52,7 @@ public class AppAdapter extends ArrayAdapter<Appinfo> {
             PackageInfo packageInfo = packageManager.getPackageInfo(current.info.packageName,0);
 
             if (!TextUtils.isEmpty(packageInfo.versionName)){
-                String versionInfo = String.format("%",packageInfo.versionName);
+                String versionInfo = format("%",packageInfo.versionName);
                 TextView versionName = view.findViewById(R.id.app_Vid);
                 versionName.setText(versionInfo);
             }
