@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     ListView listView;
     boolean allsystemapps;
+    private ApplicationInfo info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,17 +67,20 @@ public class MainActivity extends AppCompatActivity {
             PackageManager packageManager = getPackageManager();
             List<ApplicationInfo> infos = packageManager.getInstalledApplications(integers[0]);
 
-            for (ApplicationInfo info : infos)
+            for (ApplicationInfo info : infos) {
+
                 if (allsystemapps && (info.flags & ApplicationInfo.FLAG_SYSTEM)==1){
                     continue;
                 }
-            Appinfo app1 = new Appinfo();
-            ApplicationInfo info = null; //I should recheck this line
-            app1.info = info;
-            app1.label = (String) info.loadLabel(packageManager);
-            apps.add(app1);
+                Appinfo app1 = new Appinfo();
+                app1.info = info;
+                app1.label = (String) info.loadLabel(packageManager);
+                apps.add(app1);
+            }
+
             return apps;
         }
+
 
         @Override
         protected void onPostExecute(List<Appinfo> appinfos) {
