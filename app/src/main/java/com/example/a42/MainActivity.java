@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(appinfos);
             listView.setAdapter(new  AppAdapter(MainActivity.this,appinfos));
             swipeRefreshLayout.setRefreshing(false);
-            Snackbar.make(listView,appinfos.size()+"application loaded", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(listView,appinfos.size()+ "application loaded", Snackbar.LENGTH_SHORT).show();
         }
     }
 }
