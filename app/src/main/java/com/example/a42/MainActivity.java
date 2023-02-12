@@ -73,8 +73,13 @@ public class MainActivity extends AppCompatActivity {
                 if (allsystemapps && (info.flags & ApplicationInfo.FLAG_SYSTEM)==1){
                     continue;
                 }
+                Appinfo appinfo = new Appinfo();
+                appinfo.info = info;
+                appinfo.label = (String) info.loadLabel(packageManager);
+                apps.add(appinfo);
 
-                  }
+
+            }
 
             return apps;
         }
