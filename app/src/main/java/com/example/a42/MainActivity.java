@@ -3,6 +3,7 @@ package com.example.a42;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         loadAppinfoTask.execute(PackageManager.GET_META_DATA);
 
     }
-
+    @SuppressLint("StaticFieldLeak")
     class LoadAppinfoTask extends AsyncTask<Integer,Integer, List<Appinfo>>
     {
 
