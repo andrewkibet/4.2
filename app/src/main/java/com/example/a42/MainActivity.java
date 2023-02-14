@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
             for (ApplicationInfo info : infos) {
 
-                if (allsystemapps && (info.flags & ApplicationInfo.FLAG_SYSTEM)==1){
+                if (allsystemapps && (info.flags & ApplicationInfo.FLAG_SYSTEM)!=0){
                     continue;
                 }
                 Appinfo appinfo = new Appinfo();
