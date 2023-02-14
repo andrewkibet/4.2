@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     PackageInfo packageInfo = packageManager.getPackageInfo(info.packageName, PackageManager.GET_PERMISSIONS);
                     if (packageInfo.requestedPermissions != null) {
-                        boolean b = appinfo.permissions.addAll(Arrays.asList((String) packageInfo.requestedPermissions));
+                        appinfo.permissions.addAll(Arrays.asList(packageInfo.requestedPermissions));
                     }
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
