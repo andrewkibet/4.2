@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     SwipeRefreshLayout swipeRefreshLayout;
     ListView listView;
-    boolean allsystemapps = true;
+    boolean allsystemapps = false;
     //private ApplicationInfo info;
 
     @Override
