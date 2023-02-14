@@ -4,7 +4,7 @@
 
     <queries>
         <!-- Explicit apps you know in advance about: -->
-        <package android:name="com.example.this.app"/>
+        <package android:name="com.example.this.camera"/>
         <package android:name="com.example.this.other.app"/>
 
         <!-- Intent filter signatures that you are going to query: -->
