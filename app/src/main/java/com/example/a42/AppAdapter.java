@@ -38,43 +38,19 @@ public class AppAdapter extends ArrayAdapter<Appinfo> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
-        Appinfo current = apps.get(position);
-        View view = convertView;
-        TextView permissions = null;
-        permissions.setText(TextUtils.join(", ", Appinfo.permissions));
-
-        if (view == null) {
-            view = layoutInflater.inflate(R.layout.app_items, parent, false);
-        }
-        TextView appTitle = view.findViewById(R.id.app_title);
-        appTitle.setText(current.label);
-        permissions = convertView.findViewById(R.id.permissions);
-
-        try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(current.info.packageName, 0);
-
-            if (!TextUtils.isEmpty(packageInfo.versionName)) {
-                //String versionInfo = format("%",packageInfo.versionName);
-                TextView versionName = view.findViewById(R.id.app_Vid);
-                // versionName.setText(versionInfo);
-            }
-
-            if (!TextUtils.isEmpty(current.info.packageName)) {
-                TextView packageNameText = view.findViewById(R.id.app_packageid);
-                TextView permission = view.findViewById(R.id.permissions);
-                packageNameText.setText(current.info.packageName);
-            }
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.app_items, parent, false);
         }
 
-        ImageView imageView = view.findViewById(R.id.icon_id);
-        Drawable drawable = current.info.loadIcon(packageManager);
+        ImageView icon = convertView.findViewById(R.id.icon_id);
+        TextView name = convertView.findViewById(R.id.app_title);
+        TextView permissions = convertView.findViewById(R.id.permissions);
 
-        imageView.setBackground(drawable);
+        Appinfo appinfo = getItem(position);
+        icon.setImageDrawable(appinfo.info.loadIcon(getContext().getPackageManager()));
+        name.setText(appinfo.label);
+        permissions.setText(TextUtils.join(", ", appinfo.permissions));
 
-        return view;
+        return convertView;
     }
 }
