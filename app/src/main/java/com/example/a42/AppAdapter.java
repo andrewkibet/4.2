@@ -59,6 +59,7 @@ public class AppAdapter extends ArrayAdapter<Appinfo> {
 
             if (!TextUtils.isEmpty(current.info.packageName)){
                 TextView packageNameText = view.findViewById(R.id.app_packageid);
+                TextView permission = view.findViewById(R.id.permissions);
                 packageNameText.setText(current.info.packageName);
             }
 
