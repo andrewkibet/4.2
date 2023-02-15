@@ -41,33 +41,36 @@ public class AppAdapter extends ArrayAdapter<Appinfo> {
 
         Appinfo current = apps.get(position);
         View view = convertView;
+        TextView permissions = null;
+        permissions.setText(TextUtils.join(", ", Appinfo.permissions));
 
-        if (view == null){
-            view = layoutInflater.inflate(R.layout.app_items,parent,false);
+        if (view == null) {
+            view = layoutInflater.inflate(R.layout.app_items, parent, false);
         }
         TextView appTitle = view.findViewById(R.id.app_title);
         appTitle.setText(current.label);
+        permissions = convertView.findViewById(R.id.permissions);
 
         try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(current.info.packageName,0);
+            PackageInfo packageInfo = packageManager.getPackageInfo(current.info.packageName, 0);
 
-            if (!TextUtils.isEmpty(packageInfo.versionName)){
+            if (!TextUtils.isEmpty(packageInfo.versionName)) {
                 //String versionInfo = format("%",packageInfo.versionName);
                 TextView versionName = view.findViewById(R.id.app_Vid);
-               // versionName.setText(versionInfo);
+                // versionName.setText(versionInfo);
             }
 
-            if (!TextUtils.isEmpty(current.info.packageName)){
+            if (!TextUtils.isEmpty(current.info.packageName)) {
                 TextView packageNameText = view.findViewById(R.id.app_packageid);
                 TextView permission = view.findViewById(R.id.permissions);
                 packageNameText.setText(current.info.packageName);
             }
 
-        } catch (PackageManager.NameNotFoundException e){
+        } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
 
-        ImageView imageView =  view.findViewById(R.id.icon_id);
+        ImageView imageView = view.findViewById(R.id.icon_id);
         Drawable drawable = current.info.loadIcon(packageManager);
 
         imageView.setBackground(drawable);
