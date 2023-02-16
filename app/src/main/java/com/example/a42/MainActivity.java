@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     @SuppressLint("StaticFieldLeak")
+    static
     class LoadAppinfoTask extends AsyncTask<Integer,Integer, List<Appinfo>>
     {
         @Override
