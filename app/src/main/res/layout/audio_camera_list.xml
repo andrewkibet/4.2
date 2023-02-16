@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/camera_apps_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Apps with camera permission:"
+        android:textSize="18sp"
+        android:padding="10dp"
+        android:textColor="#000000"
+        />
+
+    <TextView
+        android:id="@+id/audio_apps_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Apps with audio permission:"
+        android:textSize="18sp"
+        android:padding="10dp"
+        android:textColor="#000000"
+        />
+
+
+</LinearLayout>
