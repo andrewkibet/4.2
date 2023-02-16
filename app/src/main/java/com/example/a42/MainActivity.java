@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    SwipeRefreshLayout swipeRefreshLayout;
+    static SwipeRefreshLayout swipeRefreshLayout;
     ListView listView;
     boolean allsystemapps = false;
     //private ApplicationInfo info;
@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
     @SuppressLint("StaticFieldLeak")
-    static
     class LoadAppinfoTask extends AsyncTask<Integer,Integer, List<Appinfo>>
     {
         @Override
