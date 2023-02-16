@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PermissionManager extends AppCompatActivity {
+public class PermissionManager extends AppCompatActivity implements PermissionManagerrr {
 
     boolean allsystemapps = true;
 
