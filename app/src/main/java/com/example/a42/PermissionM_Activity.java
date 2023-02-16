@@ -20,6 +20,7 @@ import java.util.List;
 public class PermissionM_Activity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     LinearLayout cameraAppsLayout, audioAppsLayout;
+    TextView cameraapps, audioapps;
     boolean allsystemapps;
 
     @SuppressLint("MissingInflatedId")
@@ -29,6 +30,8 @@ public class PermissionM_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_permission_mactivity);
 
         swipeRefreshLayout=findViewById(R.id.swiperefresh);
+        cameraapps = findViewById(R.id.camera_apps_textview);
+        audioapps = findViewById(R.id.camera_apps_textview);
         cameraAppsLayout = findViewById(R.id.camera_apps_layout);
         audioAppsLayout = findViewById(R.id.audio_apps_layout);
 
