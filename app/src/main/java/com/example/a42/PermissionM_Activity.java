@@ -92,4 +92,4 @@ public class PermissionM_Activity extends AppCompatActivity {
             return apps;
 
 
-        }
+        }}}
