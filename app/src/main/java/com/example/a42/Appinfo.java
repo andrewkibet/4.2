@@ -9,4 +9,10 @@ public class Appinfo {
     public ApplicationInfo info;
     public String label;
     public List<String> permissions = new ArrayList<>();
+
+    public void setInfo(ApplicationInfo info) {
+    }
+
+    public void setLabel(String toString) {
+    }
 }
