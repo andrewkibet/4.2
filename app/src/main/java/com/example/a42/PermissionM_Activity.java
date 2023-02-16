@@ -7,36 +7,35 @@ import android.annotation.SuppressLint;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PermissionInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.ListView;
-
-import com.google.android.material.snackbar.Snackbar;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class PermissionM_Activity extends AppCompatActivity {
+    SwipeRefreshLayout swipeRefreshLayout;
+    LinearLayout cameraAppsLayout, audioAppsLayout;
+    boolean allsystemapps;
 
-    static SwipeRefreshLayout swipeRefreshLayout;
-    ListView listView;
-    boolean allsystemapps = false;
-    //private ApplicationInfo info;
-
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_permission_mactivity);
 
-        swipeRefreshLayout = findViewById(R.id.swiperefresh);
-        listView = findViewById(R.id.listview);
+        swipeRefreshLayout=findViewById(R.id.swiperefresh);
+        cameraAppsLayout = findViewById(R.id.camera_apps_layout);
+        audioAppsLayout = findViewById(R.id.audio_apps_layout);
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 refreshIt();
-
             }
         });
     }
@@ -51,11 +50,10 @@ public class PermissionM_Activity extends AppCompatActivity {
     private void refreshIt() {
         LoadAppinfoTask loadAppinfoTask = new LoadAppinfoTask();
         loadAppinfoTask.execute(PackageManager.GET_META_DATA);
-
     }
+
     @SuppressLint("StaticFieldLeak")
-    class LoadAppinfoTask extends AsyncTask<Integer,Integer, List<Appinfo>>
-    {
+    class LoadAppinfoTask extends AsyncTask<Integer,Integer, List<Appinfo>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -64,7 +62,7 @@ public class PermissionM_Activity extends AppCompatActivity {
 
         @Override
         protected List<Appinfo> doInBackground(Integer... integers) {
-            List<Appinfo> apps= new ArrayList<>();
+            List<Appinfo> apps = new ArrayList<>();
             PackageManager packageManager = getPackageManager();
             List<ApplicationInfo> infos = packageManager.getInstalledApplications(integers[0]);
 
@@ -95,10 +93,38 @@ public class PermissionM_Activity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<Appinfo> appinfos) {
             super.onPostExecute(appinfos);
-            listView.setAdapter(new AppAdapter(PermissionM_Activity.this, appinfos));
             swipeRefreshLayout.setRefreshing(false);
-            Snackbar.make(listView, appinfos.size() + " application(s) loaded", Snackbar.LENGTH_SHORT).show();
-        }
-    }
 
-}
+            // Clear existing views
+            cameraAppsLayout.removeAllViews();
+            audioAppsLayout.removeAllViews();
+
+            // Filter apps that access camera and audio permission
+            List<Appinfo> cameraApps = new ArrayList<>();
+            List<Appinfo> audioApps = new ArrayList<>();
+
+            for (Appinfo appinfo : appinfos) {
+                if (appinfo.permissions.contains(android.Manifest.permission.CAMERA)) {
+                    cameraApps.add(appinfo);
+                }
+
+                if (appinfo.permissions.contains(android.Manifest.permission.RECORD_AUDIO)) {
+                    audioApps.add(appinfo);
+                }
+            }
+
+            // Display camera apps
+            for (Appinfo appinfo : cameraApps) {
+                TextView textView = new TextView(getApplicationContext());
+                textView.setText(appinfo.label);
+                cameraAppsLayout.addView(textView);
+            }
+
+// Display audio apps
+            for (Appinfo appinfo : audioApps) {
+                TextView textView = new TextView(getApplicationContext());
+                textView.setText(appinfo.label);
+                audioAppsLayout.addView(textView);
+            }
+
+        }}}
