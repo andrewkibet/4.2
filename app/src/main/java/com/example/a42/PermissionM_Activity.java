@@ -11,21 +11,26 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class PermissionM_Activity extends AppCompatActivity {
-    SwipeRefreshLayout swipeRefreshLayout;
-    ListView listView ;
-    boolean allsystemapps;
+
+    static SwipeRefreshLayout swipeRefreshLayout;
+    ListView listView;
+    boolean allsystemapps = false;
+    //private ApplicationInfo info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_permission_mactivity);
-        swipeRefreshLayout=findViewById(R.id.swiperefresh);
-        listView =  findViewById(R.id.listview);
+
+        swipeRefreshLayout = findViewById(R.id.swiperefresh);
+        listView = findViewById(R.id.listview);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -34,25 +39,20 @@ public class PermissionM_Activity extends AppCompatActivity {
 
             }
         });
-
-
     }
-
-
 
     @Override
     protected void onResume() {
         super.onResume();
-        MainActivity.LoadAppinfoTask loadAppinfoTask = new MainActivity.LoadAppinfoTask();
+        LoadAppinfoTask loadAppinfoTask = new LoadAppinfoTask();
         loadAppinfoTask.execute(PackageManager.GET_META_DATA);
     }
 
     private void refreshIt() {
-        MainActivity.LoadAppinfoTask loadAppinfoTask = new MainActivity.LoadAppinfoTask();
+        LoadAppinfoTask loadAppinfoTask = new LoadAppinfoTask();
         loadAppinfoTask.execute(PackageManager.GET_META_DATA);
 
     }
-
     @SuppressLint("StaticFieldLeak")
     class LoadAppinfoTask extends AsyncTask<Integer,Integer, List<Appinfo>>
     {
@@ -90,6 +90,15 @@ public class PermissionM_Activity extends AppCompatActivity {
             }
 
             return apps;
+        }
 
+        @Override
+        protected void onPostExecute(List<Appinfo> appinfos) {
+            super.onPostExecute(appinfos);
+            listView.setAdapter(new AppAdapter(PermissionM_Activity.this, appinfos));
+            swipeRefreshLayout.setRefreshing(false);
+            Snackbar.make(listView, appinfos.size() + " application(s) loaded", Snackbar.LENGTH_SHORT).show();
+        }
+    }
 
-        }}}
+}
