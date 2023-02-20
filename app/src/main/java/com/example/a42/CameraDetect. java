@@ -15,6 +15,19 @@ private BroadcastReceiver cameraReceiver = new BroadcastReceiver() {
                                                                                     }
                                                                                     
                                                                         }
+
+                                                                        private void showNotification() {
+                                                                                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                                                                                                .setSmallIcon(R.drawable.ic_camera)
+                                                                                                            .setContentTitle("Camera Access Detected")
+                                                                                                                        .setContentText("An app has accessed your camera.")
+                                                                                                                                    .setAutoCancel(true);
+
+                                                                                                                                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                                                                                                                            notificationManager.notify(0, builder.build());
+                                                                                                                                            }
+                                                                                                                                            
+                                                                        }
                                 }
             }
 }
