@@ -1,5 +1,5 @@
  package com.example.a42;
-
+/*
 import org.jetbrains.annotations.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -17,7 +17,7 @@ import android.os.IBinder;
 public class CameraUsageActivity extends AppCompatActivity {
 
     @Override
-    protected void onCrea te(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_usage);
     }
@@ -110,4 +110,4 @@ public class CameraUsageActivity extends AppCompatActivity {
         }
     }
 
-}
+}*/
