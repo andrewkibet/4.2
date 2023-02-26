@@ -1,22 +1,23 @@
  package com.example.a42;
 
-import org.jetbrains.annotations.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.hardware.camera2.CameraManager;
-import android.os.Build;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.IBinder;
 
-public class CameraUsageActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+ public class CameraUsageActivity extends AppCompatActivity {
+
+     private List<String> whitelistedApps = new ArrayList<>(Arrays.asList("com.example.myapp", "com.example.anotherapp"));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,19 +27,35 @@ public class CameraUsageActivity extends AppCompatActivity {
     private BroadcastReceiver cameraReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // Check if the event is related to camera usage
-            if (intent.getAction().equals(android.hardware.Camera.ACTION_NEW_PICTURE)) {
-                // Notify the user that the camera has been accessed
-                showNotification();
+            String action = intent.getAction();
+            if (action.equals(android.hardware.Camera.ACTION_NEW_PICTURE) ||
+                    action.equals(android.hardware.Camera.ACTION_CAMERA_STARTED) ||
+                    action.equals(android.hardware.Camera.ACTION_CAMERA_STOPPED)) {
+                // Camera access detected
+                String packageName = intent.getStringExtra("android.intent.extra.PACKAGE_NAME");
+                if (packageName != null) {
+                    PackageManager packageManager = context.getPackageManager();
+                    try {
+                        // Get the app's name from the package name
+                        ApplicationInfo appInfo = packageManager.getApplicationInfo(packageName, 0);
+                        String appName = (String) packageManager.getApplicationLabel(appInfo);
+                        // Check if the app is whitelisted
+                        if (whitelistedApps.contains(packageName)) {
+                            // App is whitelisted, do not show notification
+                        } else {
+                            // App is not whitelisted, show notification with app's name
+                            showNotification("Camera access by " + appName);
+                        }
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     };
 
-    private void registerCameraReceiver() {
-        IntentFilter intentFilter = new IntentFilter(android.hardware.Camera.ACTION_NEW_PICTURE);
-        registerReceiver(cameraReceiver, intentFilter);
-    }
-    private void showNotification() {
+}
+    private void showNotification(String s) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_camera)
                 .setContentTitle("Camera Access Detected")
