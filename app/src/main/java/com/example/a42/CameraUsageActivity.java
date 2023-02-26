@@ -1,5 +1,5 @@
  package com.example.a42;
-/*
+
 import org.jetbrains.annotations.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -110,4 +110,4 @@ public class CameraUsageActivity extends AppCompatActivity {
         }
     }
 
-}*/
+}
