@@ -20,6 +20,7 @@ public class Notification extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel("My Notificatio", "My Not", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
         }
 
         notifyText.setOnClickListener(new View.OnClickListener() {
