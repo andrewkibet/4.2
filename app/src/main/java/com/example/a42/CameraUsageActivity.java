@@ -2,13 +2,17 @@
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.hardware.Camera;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,46 +27,50 @@ import java.util.List;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_usage);
     }
-    private BroadcastReceiver cameraReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(android.hardware.Camera.ACTION_NEW_PICTURE) ||
-                    action.equals(android.hardware.Camera.ACTION_CAMERA_STARTED) ||
-                    action.equals(android.hardware.Camera.ACTION_CAMERA_STOPPED)) {
-                // Camera access detected
-                String packageName = intent.getStringExtra("android.intent.extra.PACKAGE_NAME");
-                if (packageName != null) {
-                    PackageManager packageManager = context.getPackageManager();
-                    try {
-                        // Get the app's name from the package name
-                        ApplicationInfo appInfo = packageManager.getApplicationInfo(packageName, 0);
-                        String appName = (String) packageManager.getApplicationLabel(appInfo);
-                        // Check if the app is whitelisted
-                        if (whitelistedApps.contains(packageName)) {
-                            // App is whitelisted, do not show notification
-                        } else {
-                            // App is not whitelisted, show notification with app's name
-                            showNotification("Camera access by " + appName);
-                        }
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
+
+        public class CameraAccessReceiver extends BroadcastReceiver {
+            private static final String TAG = "CameraAccessReceiver";
+            private static final int NOTIFICATION_ID = 1;
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (action != null && (action.equals(Camera.ACTION_NEW_PICTURE) || action.equals(Camera.ACTION_NEW_VIDEO))) {
+                    Log.d(TAG, "Camera accessed by an app");
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "camera_access_channel")
+                            .setSmallIcon(R.drawable.ic_camera)
+                            .setContentTitle("Camera Access Detected")
+                            .setContentText("An app has accessed your camera.")
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setAutoCancel(true);
+
+                    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    notificationManager.notify(NOTIFICATION_ID, builder.build());
                 }
             }
         }
-    };
 
-}
-    private void showNotification(String s) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_camera)
-                .setContentTitle("Camera Access Detected")
-                .setContentText("An app has accessed your camera.")
-                .setAutoCancel(true);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, builder.build());
+       public class NotificationHelper {
+            public static final String CHANNEL_ID_CAMERA_ACCESS = "camera_access_channel";
+
+            public void createNotificationChannels(Context context) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    NotificationChannel cameraAccessChannel = new NotificationChannel(
+                            CHANNEL_ID_CAMERA_ACCESS,
+                            "Camera Access Channel",
+                            NotificationManager.IMPORTANCE_DEFAULT);
+                    cameraAccessChannel.setDescription("Channel for camera access notifications");
+
+                    NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+                    notificationManager.createNotificationChannel(cameraAccessChannel);
+                }
+            }
+        }
     }
 
-}
+
+
+
+
+
