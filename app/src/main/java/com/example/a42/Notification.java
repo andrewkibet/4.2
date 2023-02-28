@@ -17,7 +17,13 @@ public class Notification extends AppCompatActivity {
         notifyText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(Notification.this,"channel Id");
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(Notification.this,"channel Id")
+                        .setContentTitle("Camera Accessed")
+                        .setContentText("Be Careful")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        //.setContentIntent(pendingIntent)
+                        .setSmallIcon(R.drawable.ic_camera)
+                        .setAutoCancel(true);
             }
         });
     }
