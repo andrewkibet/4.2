@@ -30,8 +30,7 @@ public class Notification extends AppCompatActivity {
         notifyText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(Notification.this,"channel Id");
-                        builder.setContentTitle("Camera Accessed");
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(Notification.this,"channel Id");                        builder.setContentTitle("Camera Accessed");
                         builder.setContentText("Be Careful");
                        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
                         //.setContentIntent(pendingIntent)
