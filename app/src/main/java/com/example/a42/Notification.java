@@ -1,6 +1,8 @@
 package com.example.a42;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -15,7 +17,7 @@ public class Notification extends AppCompatActivity {
         notifyText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(Notification.this,"channel Id");
             }
         });
     }
