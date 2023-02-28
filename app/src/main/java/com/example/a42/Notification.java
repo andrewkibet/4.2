@@ -13,11 +13,13 @@ import android.widget.TextView;
 
 public class Notification extends AppCompatActivity {
 
+    TextView notifyText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-        TextView notifyText = findViewById(R.id.not);
+        notifyText = findViewById(R.id.not);
 
         if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel("My Notificatio", "My Not", NotificationManager.IMPORTANCE_DEFAULT);
