@@ -2,6 +2,7 @@ package com.example.a42;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -34,6 +35,10 @@ public class Notification extends AppCompatActivity {
                         //.setContentIntent(pendingIntent)
                         .setSmallIcon(R.drawable.ic_camera)
                         .setAutoCancel(true);
+                NotificationManagerCompat managerCompat = NotificationManagerCompat.from(Notification.this);
+                managerCompat.notify(1,builder.build());
+
+
             }
         });
     }
