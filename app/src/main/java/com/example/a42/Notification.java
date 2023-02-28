@@ -32,6 +32,7 @@ public class Notification extends AppCompatActivity {
             public void onClick(View view) {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(Notification.this,"channel Id");                        builder.setContentTitle("Camera Accessed");
                         builder.setContentText("Be Careful");
+                        builder.setContentTitle("Camera");
                        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
                         //.setContentIntent(pendingIntent)
                        builder.setSmallIcon(R.drawable.ic_camera);
