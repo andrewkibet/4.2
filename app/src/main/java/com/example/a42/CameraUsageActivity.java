@@ -1,5 +1,4 @@
  package com.example.a42;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
@@ -14,7 +13,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+/*
  public class CameraUsageActivity extends AppCompatActivity {
 
      private List<String> whitelistedApps = new ArrayList<>(Arrays.asList("com.example.myapp", "com.example.anotherapp"));
@@ -66,4 +65,4 @@ import java.util.List;
         notificationManager.notify(0, builder.build());
     }
 
-}
+}*/
