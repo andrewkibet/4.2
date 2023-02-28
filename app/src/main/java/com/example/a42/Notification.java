@@ -31,12 +31,12 @@ public class Notification extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(Notification.this,"channel Id")
-                        .setContentTitle("Camera Accessed")
-                        .setContentText("Be Careful")
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        builder.setContentTitle("Camera Accessed");
+                        builder.setContentText("Be Careful");
+                       builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
                         //.setContentIntent(pendingIntent)
-                        .setSmallIcon(R.drawable.ic_camera)
-                        .setAutoCancel(true);
+                       builder.setSmallIcon(R.drawable.ic_camera);
+                      builder.setAutoCancel(true);
                 NotificationManagerCompat managerCompat = NotificationManagerCompat.from(Notification.this);
                 managerCompat.notify(1,builder.build());
 
