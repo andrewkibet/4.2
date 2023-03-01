@@ -1,76 +1,78 @@
  package com.example.a42;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.hardware.Camera;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
- public class CameraUsageActivity extends AppCompatActivity {
-
-     private List<String> whitelistedApps = new ArrayList<>(Arrays.asList("com.example.myapp", "com.example.anotherapp"));
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera_usage);
-    }
-
-        public class CameraAccessReceiver extends BroadcastReceiver {
-            private static final String TAG = "CameraAccessReceiver";
-            private static final int NOTIFICATION_ID = 1;
-
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction();
-                if (action != null && (action.equals(Camera.ACTION_NEW_PICTURE) || action.equals(Camera.ACTION_NEW_VIDEO))) {
-                    Log.d(TAG, "Camera accessed by an app");
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "camera_access_channel")
-                            .setSmallIcon(R.drawable.ic_camera)
-                            .setContentTitle("Camera Access Detected")
-                            .setContentText("An app has accessed your camera.")
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                            .setAutoCancel(true);
-
-                    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                    notificationManager.notify(NOTIFICATION_ID, builder.build());
-                }
-            }
-        }
 
 
-       public class NotificationHelper {
-            public static final String CHANNEL_ID_CAMERA_ACCESS = "camera_access_channel";
+ import android.Manifest;
+ import android.annotation.TargetApi;
+ import android.app.Notification;
+ import android.app.NotificationChannel;
+ import android.app.NotificationManager;
+ import android.app.job.JobInfo;
+ import android.app.job.JobScheduler;
+ import android.content.BroadcastReceiver;
+ import android.content.ComponentName;
+ import android.content.Context;
+ import android.content.Intent;
+ import android.content.pm.PackageManager;
+ import android.hardware.camera2.CameraAccessException;
+ import android.hardware.camera2.CameraManager;
+ import android.os.Build;
+ import android.os.PersistableBundle;
+ import android.provider.Settings;
+ import android.support.v4.app.NotificationCompat;
+ import android.util.Log;
 
-            public void createNotificationChannels(Context context) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel cameraAccessChannel = new NotificationChannel(
-                            CHANNEL_ID_CAMERA_ACCESS,
-                            "Camera Access Channel",
-                            NotificationManager.IMPORTANCE_DEFAULT);
-                    cameraAccessChannel.setDescription("Channel for camera access notifications");
+ import java.util.List;
 
-                    NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-                    notificationManager.createNotificationChannel(cameraAccessChannel);
-                }
-            }
-        }
-    }
+ public class CameraMonitorService extends BroadcastReceiver {
 
+     private static final int JOB_ID = 1;
+     private static final String CHANNEL_ID = "CameraMonitorChannel";
+     private static final String TAG = CameraMonitorService.class.getSimpleName();
+     private static final long PERIODIC_INTERVAL = 60 * 1000; // 1 minute
 
+     private boolean mCameraPermissionGranted = false;
+     private NotificationManager mNotificationManager;
+     private CameraManager mCameraManager;
 
+     @Override
+     public void onReceive(Context context, Intent intent) {
+         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+             // Schedule the job to periodically monitor camera usage
+             scheduleJob(context);
+         } else if (intent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED)) {
+             // Update the foreground service if the camera permission status has changed
+             checkCameraPermission(context);
+         }
+     }
 
+     @TargetApi(Build.VERSION_CODES.M)
+     private void checkCameraPermission(Context context) {
+         if (context.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+             mCameraPermissionGranted = true;
+             startForegroundService(context);
+         } else {
+             mCameraPermissionGranted = false;
+             stopForegroundService(context);
+         }
+     }
 
+     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+     private boolean isCameraInUse() {
+         if (!mCameraPermissionGranted) {
+             return false;
+         }
+         try {
+             String[] cameraIds = mCameraManager.getCameraIdList();
+             for (String cameraId : cameraIds) {
+                 CameraManager.AvailabilityCallback availabilityCallback = new CameraManager.AvailabilityCallback() {
+                     @Override
+                     public void onCameraAvailable(String cameraId) {
+                         super.onCameraAvailable(cameraId);
+                         Log.d(TAG, "Camera " + cameraId + " is available");
+                     }
+
+                     @Override
+                     public void onCameraUnavailable(String cameraId) {
+                         super.onCameraUnavailable(cameraId);
+                         Log.d(TAG, "Camera " + cameraId + " is unavailable");
 
