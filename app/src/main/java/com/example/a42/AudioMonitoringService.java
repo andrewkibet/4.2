@@ -37,11 +37,14 @@ public class AudioMonitoringService extends Service {
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                             .setAutoCancel(true);
                     NotificationManagerCompat managerCompat  = NotificationManagerCompat.from(context);
+                    managerCompat.notify(0, builder.build());
                 }
-                // and show a notification if necessary
             }
         };
         registerReceiver(mAudioReceiver, filter);
+
+        // Get the AudioManager system service
+        maudiomanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
     }
 
     @Override
@@ -60,8 +63,4 @@ public class AudioMonitoringService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
-
-    // Service code here
 }
-
-
