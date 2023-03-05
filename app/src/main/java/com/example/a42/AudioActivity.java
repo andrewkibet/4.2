@@ -11,6 +11,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.camera2.CameraManager;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,10 +21,16 @@ import android.os.Looper;
 
 public class AudioActivity extends AppCompatActivity {
 
+    private CameraManager mcameraManager;
+    private AudioManager maudioManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio);
+
+        mcameraManager = (CameraManager)getSystemService(Context.CAMERA_SERVICE);
+        maudioManager  = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 
         // Start the AudioAccessService
         Intent serviceIntent = new Intent(this, AudioAccessService.class);
