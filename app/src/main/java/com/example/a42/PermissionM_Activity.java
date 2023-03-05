@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionInfo;
+import android.hardware.camera2.CameraManager;
+import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.LinearLayout;
@@ -18,6 +21,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PermissionM_Activity extends AppCompatActivity {
+
+
+    private CameraManager mcameraManager;
+    private AudioManager maudioManager;
+
     SwipeRefreshLayout swipeRefreshLayout;
     LinearLayout cameraAppsLayout, audioAppsLayout;
     TextView cameraapps, audioapps;
@@ -28,6 +36,9 @@ public class PermissionM_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_permission_mactivity);
+
+        maudioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        mcameraManager = (CameraManager)getSystemService(Context.CAMERA_SERVICE);
 
         swipeRefreshLayout=findViewById(R.id.swiperefresh);
         cameraapps = findViewById(R.id.camera_apps_textview);
