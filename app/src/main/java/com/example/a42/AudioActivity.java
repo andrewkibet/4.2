@@ -39,38 +39,38 @@ public class AudioActivity extends AppCompatActivity {
         super.onStart();
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 101);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 101);
         } else {
             registerCameraCallback();
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.RECORD_AUDIO}, 102);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 102);
         } else {
-            registerAudioCallback();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                registerAudioCallback();
+            }
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void registerCameraCallback() {
-        try {
-            mCameraManager.registerAvailabilityCallback(new CameraManager.AvailabilityCallback() {
-                @Override
-                public void onCameraAvailable(@NonNull String cameraId) {
-                    Log.d(TAG, "Camera available: " + cameraId);
-                    showNotification("Camera available: " + cameraId);
-                }
+        mCameraManager.registerAvailabilityCallback(new CameraManager.AvailabilityCallback() {
+            @Override
+            public void onCameraAvailable(@NonNull String cameraId) {
+                Log.d(TAG, "Camera available: " + cameraId);
+                showNotification("Camera available: " + cameraId);
+            }
 
-                @Override
-                public void onCameraUnavailable(@NonNull String cameraId) {
-                    Log.d(TAG, "Camera unavailable: " + cameraId);
-                    showNotification("Camera unavailable: " + cameraId);
-                }
-            }, null);
-        } catch (CameraAccessException e) {
-            Log.e(TAG, "Error registering camera callback", e);
-        }
+            @Override
+            public void onCameraUnavailable(@NonNull String cameraId) {
+                Log.d(TAG, "Camera unavailable: " + cameraId);
+                showNotification("Camera unavailable: " + cameraId);
+            }
+        }, null);
     }
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void registerAudioCallback() {
@@ -90,4 +90,20 @@ public class AudioActivity extends AppCompatActivity {
                         Log.d(TAG, "Audio focus lost transiently");
                         showNotification("Audio focus lost transiently");
                         break;
-                    case AudioManager.A
+
+                }
+            }
+        }, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+    }
+
+    private void showNotification(String message) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID")
+                .setSmallIcon(R.drawable.ic_camera)
+                .setContentTitle("App Notification")
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        mNotificationManager.notify(1, builder.build());
+    }
+
+}
