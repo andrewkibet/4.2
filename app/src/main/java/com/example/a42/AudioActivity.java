@@ -1,123 +1,109 @@
 package com.example.a42;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
+import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Looper;
+import android.util.Log;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.PermissionChecker;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 public class AudioActivity extends AppCompatActivity {
+    private CameraManager mCameraManager;
+    private AudioManager mAudioManager;
+    private NotificationManagerCompat mNotificationManager;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_audio);
+        setContentView(R.layout.activity_main);
 
-        // Start the AudioAccessService
-        Intent serviceIntent = new Intent(this, AudioAccessService.class);
-        startService(serviceIntent);
+        mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        mNotificationManager = NotificationManagerCompat.from(this);
     }
-    public class AudioAccessService extends Service {
 
-        private AudioManager audioManager;
-        private Handler handler;
-        private NotificationManager notificationManager;
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    protected void onStart() {
+        super.onStart();
 
-        private boolean isAudioAccessed;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 101);
+        } else {
+            registerCameraCallback();
+        }
 
-        private static final int NOTIFICATION_ID = 1;
-        private static final String NOTIFICATION_CHANNEL_ID = "audio_access_channel";
-
-        @Override
-        public void onCreate() {
-            super.onCreate();
-            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-            handler = new Handler(Looper.getMainLooper());
-            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-            // Create a notification channel for Android Oreo and above
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 102);
+        } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Audio Access Channel", NotificationManager.IMPORTANCE_HIGH);
-                notificationManager.createNotificationChannel(channel);
+                registerAudioCallback();
             }
-        }
-
-        @Override
-        public int onStartCommand(Intent intent, int flags, int startId) {
-            startForeground(NOTIFICATION_ID, createNotification());
-
-            handler.postDelayed(audioAccessCheckRunnable, 1000);
-
-            return START_STICKY;
-        }
-
-        @Nullable
-        @Override
-        public IBinder onBind(Intent intent) {
-            return null;
-        }
-
-        @Override
-        public void onDestroy() {
-            super.onDestroy();
-            stopForeground(true);
-            handler.removeCallbacks(audioAccessCheckRunnable);
-        }
-
-        private Runnable audioAccessCheckRunnable = new Runnable() {
-            @Override
-            public void run() {
-                boolean isMusicActive = audioManager.isMusicActive();
-                if (isMusicActive && !isAudioAccessed) {
-                    // Audio is being accessed by an app for the first time
-                    isAudioAccessed = true;
-                    showNotification();
-                } else if (!isMusicActive && isAudioAccessed) {
-                    // Audio access has ended
-                    isAudioAccessed = false;
-                }
-                handler.postDelayed(this, 1000);
-            }
-        };
-
-        private android.app.Notification createNotification() {
-            Intent intent = new Intent(this, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                    .setContentTitle("Audio access detection is running")
-                    .setContentText("Tap to open the app")
-                    .setSmallIcon(R.drawable.ic_camera)
-                    .setContentIntent(pendingIntent);
-
-            return builder.build();
-        }
-
-        private void showNotification() {
-            android.app.Notification notification = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                notification = new Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
-                        .setContentTitle("Audio accessed by an app")
-                        .setContentText("An app is currently using your phone's audio")
-                        .setSmallIcon(R.drawable.ic_camera)
-                        .build();
-            }
-            notificationManager.notify(NOTIFICATION_ID, notification);
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void registerCameraCallback() {
+        mCameraManager.registerAvailabilityCallback(new CameraManager.AvailabilityCallback() {
+            @Override
+            public void onCameraAvailable(@NonNull String cameraId) {
+                Log.d(TAG, "Camera available: " + cameraId);
+                showNotification("Camera available: " + cameraId);
+            }
 
+            @Override
+            public void onCameraUnavailable(@NonNull String cameraId) {
+                Log.d(TAG, "Camera unavailable: " + cameraId);
+                showNotification("Camera unavailable: " + cameraId);
+            }
+        }, null);
+    }
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void registerAudioCallback() {
+        mAudioManager.requestAudioFocus(new AudioManager.OnAudioFocusChangeListener() {
+            @Override
+            public void onAudioFocusChange(int focusChange) {
+                switch (focusChange) {
+                    case AudioManager.AUDIOFOCUS_GAIN:
+                        Log.d(TAG, "Audio focus gained");
+                        showNotification("Audio focus gained");
+                        break;
+                    case AudioManager.AUDIOFOCUS_LOSS:
+                        Log.d(TAG, "Audio focus lost");
+                        showNotification("Audio focus lost");
+                        break;
+                    case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                        Log.d(TAG, "Audio focus lost transiently");
+                        showNotification("Audio focus lost transiently");
+                        break;
+
+                }
+            }
+        }, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+    }
+
+    private void showNotification(String message) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID")
+                .setSmallIcon(R.drawable.ic_camera)
+                .setContentTitle("App Notification")
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        mNotificationManager.notify(1, builder.build());
+    }
 
 }
