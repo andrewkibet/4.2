@@ -85,6 +85,11 @@
             android:exported="false"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
+                <action android:name="android.hardware.camera.action.CAMERA_DISCONNECTED" />
+                <action android:name="android.hardware.camera.action.CAMERA_CONNECTED" />
+                <action android:name="android.hardware.camera.action.CAMERA_CLOSED" />
+                <action android:name="android.hardware.camera.action.CAMERA_OPENED" />
+
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
