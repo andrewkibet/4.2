@@ -23,14 +23,6 @@ import java.util.List;
 public class PermissionM_Activity extends AppCompatActivity {
 
 
-    private CameraManager mcameraManager;
-    private AudioManager maudioManager;
-
-    SwipeRefreshLayout swipeRefreshLayout;
-    LinearLayout cameraAppsLayout, audioAppsLayout;
-    TextView cameraapps, audioapps;
-    boolean allsystemapps;
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
