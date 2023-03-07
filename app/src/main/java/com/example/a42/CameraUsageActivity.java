@@ -11,7 +11,7 @@
          super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_camera_usage);
 
-         JobSchedulerHelper.scheduleJob(getApplicationContext());
+         
 }
  }
 
