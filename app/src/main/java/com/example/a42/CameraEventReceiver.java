@@ -1,5 +1,4 @@
 package com.example.a42;
-
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -53,6 +52,8 @@ public class CameraEventReceiver extends BroadcastReceiver {
             }
         }
     }
+
+
 
     private void showNotification(Context context) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
