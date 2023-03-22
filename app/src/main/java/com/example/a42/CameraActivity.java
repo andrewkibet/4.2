@@ -87,7 +87,7 @@ public class CameraActivity extends AppCompatActivity {
                 // Build the notification
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(CameraActivity.this, "My Notificatio")
                         .setContentTitle("Camera Accessed")
-                        .setContentText("Camera being used by" + packageName)
+                        .setContentText("Camera being used by" + appName)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setSmallIcon(R.drawable.ic_camera)
                         .setAutoCancel(true);
