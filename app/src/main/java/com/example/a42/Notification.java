@@ -24,7 +24,7 @@ public class Notification extends AppCompatActivity {
         notifyText = findViewById(R.id.not);
 
         if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel("My Notificatio", "My Not", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel("My Notification", "My Not", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }
@@ -46,7 +46,7 @@ public class Notification extends AppCompatActivity {
 
                 // Build the notification
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(Notification.this,"My Notificatio")
-                        .setContentTitle("Camera Accessed")
+                        .setContentTitle("Camera is being Accessed")
                         .setContentText("Be Careful")
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setSmallIcon(R.drawable.ic_camera)
@@ -55,7 +55,7 @@ public class Notification extends AppCompatActivity {
                 // Show the notification
                 NotificationManagerCompat managerCompat = NotificationManagerCompat.from(Notification.this);
                 int notificationId = (int) System.currentTimeMillis();
-                managerCompat.notify(notificationId, builder.build());
+               // managerCompat.notify(notificationId, builder.build());
                 Log.i("Notification", "Notification sent with ID " + notificationId);
             }
         });

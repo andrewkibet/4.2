@@ -32,8 +32,8 @@ public class CameraStateReceiver extends BroadcastReceiver {
 
         // Register a CameraManager.AvailabilityCallback to listen for camera access events
         mCameraCallback = new CameraManager.AvailabilityCallback() {
-            @Override
-            public void onCameraAvailable(String cameraId) {
+           /* @Override
+           public void onCameraAvailable(String cameraId) {
                 // The camera is available for use
                 Log.d(TAG, "Camera " + cameraId + " is now available");
 
@@ -58,18 +58,20 @@ public class CameraStateReceiver extends BroadcastReceiver {
                 notificationManager.notify(NOTIFICATION_ID, builder.build());
             }
 
+            */
+
             @Override
             public void onCameraUnavailable(String cameraId) {
                 // The camera is no longer available for use
                 Log.d(TAG, "Camera " + cameraId + " is now unavailable");
-                createNotificationChannel();
+
 
 
                 // Create a notification to indicate that the camera is available
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, CHANNEL_ID)
                         .setSmallIcon(R.drawable.warning)
                         .setContentTitle("Camera Available")
-                        .setContentText("The camera is not available for use")
+                        .setContentText("The camera is now available for use")
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(mContext);
@@ -84,19 +86,26 @@ public class CameraStateReceiver extends BroadcastReceiver {
                     return;
                 }
                 notificationManager.notify(NOTIFICATION_ID, builder.build());
-
-
             }
+
+
+
+
+
+
+               // createNotificationChannel();
+
+
         };
 
         // Create the notification channel
-        createNotificationChannel();
+    //    createNotificationChannel();
 
         // Register the callback with the CameraManager
         mCameraManager.registerAvailabilityCallback(mCameraCallback, null);
     }
 
-    private void createNotificationChannel() {
+   /* private void createNotificationChannel() {
         // Create the notification channel only for Android Oreo and above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Camera Notification Channel";
@@ -112,6 +121,8 @@ public class CameraStateReceiver extends BroadcastReceiver {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+    */
 
     @Override
     public void onReceive(Context context, Intent intent) {

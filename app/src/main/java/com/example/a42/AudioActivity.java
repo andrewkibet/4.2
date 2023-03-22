@@ -20,8 +20,9 @@ import androidx.core.app.NotificationManagerCompat;
 public class AudioActivity extends AppCompatActivity {
     private CameraManager mCameraManager;
     private AudioManager mAudioManager;
+
     private NotificationManagerCompat mNotificationManager;
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "AudioActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +104,7 @@ public class AudioActivity extends AppCompatActivity {
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        mNotificationManager.notify(1, builder.build());
+        //mNotificationManager.notify(1, builder.build());
     }
 
 }
