@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
@@ -70,7 +71,16 @@ public class CameraActivity extends AppCompatActivity {
 
                 PackageManager pm  = getPackageManager();
                 String[] packageNames = pm.getPackagesForUid(android.os.Process.myUid());
-                String packageName = (packageNames!= null && packageNames.length>0)? packageNames[0] :"";
+                String packageName = (packageNames!= null && packageNames.length> 0)? packageNames[0] :"";
+                String appName ="";
+                try {
+                    ApplicationInfo appinfo = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+                    appName = pm.getApplicationLabel(appinfo).toString();
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+
 
 
 
