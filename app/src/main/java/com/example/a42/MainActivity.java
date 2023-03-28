@@ -77,14 +77,14 @@ public class MainActivity extends AppCompatActivity {
                 appinfo.info = info;
                 appinfo.label = (String) info.loadLabel(packageManager);
 
-                try {
+               /* try {
                     PackageInfo packageInfo = packageManager.getPackageInfo(info.packageName, PackageManager.GET_PERMISSIONS);
                     if (packageInfo.requestedPermissions != null) {
                         appinfo.permissions.addAll(Arrays.asList(packageInfo.requestedPermissions));
                     }
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
-                }
+                } */
 
                 apps.add(appinfo);
             }
