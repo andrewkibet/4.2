@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PermissionMActivity extends AppCompatActivity {
+public class PermissionM_Activity extends AppCompatActivity {
 
     static SwipeRefreshLayout swipeRefreshLayout;
     ListView listView;
@@ -27,7 +27,7 @@ public class PermissionMActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_permission_mactivity);
 
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         listView = findViewById(R.id.listview);
@@ -84,7 +84,7 @@ public class PermissionMActivity extends AppCompatActivity {
                     }
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
-                } 
+                }
 
                 apps.add(appinfo);
             }
@@ -95,7 +95,7 @@ public class PermissionMActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<Appinfo> appinfos) {
             super.onPostExecute(appinfos);
-            listView.setAdapter(new AppAdapter(PermissionMActivity.this, appinfos));
+            listView.setAdapter(new AppAdapter(PermissionM_Activity.this, appinfos));
             swipeRefreshLayout.setRefreshing(false);
             Snackbar.make(listView, appinfos.size() + " application(s) loaded", Snackbar.LENGTH_SHORT).show();
         }
