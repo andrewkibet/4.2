@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             PackageManager packageManager = getPackageManager();
             List<ApplicationInfo> infos = packageManager.getInstalledApplications(integers[0]);
 
-            for (ApplicationInfo info : infos) {
+            /*for (ApplicationInfo info : infos) {
                 if (allsystemapps && (info.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
                     continue;
                 }
@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
 
                 apps.add(appinfo);
             }
+            
+             */
 
             return apps;
         }
