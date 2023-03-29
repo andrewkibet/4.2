@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/bnpm"
         android:layout_width="256dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/bnall"
         android:layout_width="256dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
