@@ -20,15 +20,13 @@ public class HomePage extends AppCompatActivity {
         bn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+              Intent  i = new Intent(getApplicationContext(),CameraActivity.class);
+                startActivity(i);
 
-                openNewActivity();
+
+                //openNewActivity();
                }
         });
     }
 
-    private void openNewActivity() {
-        Intent intent = new Intent(this, CameraActivity.class);
-        startActivity(intent);
-
-    }
 }
