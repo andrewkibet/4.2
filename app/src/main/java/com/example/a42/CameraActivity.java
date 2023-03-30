@@ -133,6 +133,8 @@ public class CameraActivity extends AppCompatActivity {
                 }
                 managerCompat.notify(notificationId, builder.build());
                 Log.i("Notification", "Notification sent with ID " + notificationId);
+                Log.d("Notification", "App Name: " + appName);
+
             }
       };
 
