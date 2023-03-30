@@ -21,6 +21,27 @@ public class HomePage extends AppCompatActivity {
         bn = (Button) findViewById(R.id.moncamera);
         allapps=(Button) findViewById(R.id.bnall);
         pm =(Button) findViewById(R.id.bnpm);
+        allapps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent  i = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(i);
+
+            }
+        });
+
+
+        pm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent  i = new Intent(getApplicationContext(),PermissionM_Activity.class);
+                startActivity(i);
+
+            }
+        });
+
+
+
 
         bn.setOnClickListener(new View.OnClickListener() {
             @Override
