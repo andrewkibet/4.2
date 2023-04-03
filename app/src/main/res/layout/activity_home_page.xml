@@ -7,57 +7,58 @@
     android:background="@drawable/bg_image"
     tools:context=".HomePage">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+   <TextView
+       android:id="@+id/textView"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="128dp"
+       android:text="Secure Your Device"
+       android:textColor="#FFFFFF"
+       android:textSize="48sp"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent" />
 
-        android:text="Secure Your Device"
-        android:textColor="#FFFFFF"
-        android:textSize="48sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+   <Button
+       android:id="@+id/bnpm"
+       android:layout_width="256dp"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="40dp"
+       android:backgroundTint="#FFFFFF"
+       android:text="Permission Manager"
+       android:textColor="#000000"
+       android:textSize="24sp"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <Button
-        android:id="@+id/bnpm"
-        android:layout_width="256dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="#FFFFFF"
-        android:text="Permission Manager"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+   <Button
+       android:id="@+id/bnall"
+       android:layout_width="256dp"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="24dp"
+       android:backgroundTint="#FFFFFF"
+       android:text="All Apps"
+       android:textColor="#000000"
+       android:textSize="24sp"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintHorizontal_bias="0.651"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/bnpm" />
 
-    <Button
-        android:id="@+id/bnall"
-        android:layout_width="256dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="#FFFFFF"
-        android:text="All Apps"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.651"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bnpm" />
+   <Button
+       android:id="@+id/moncamera"
+       android:layout_width="256dp"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="24dp"
+       android:backgroundTint="#FFFFFF"
+       android:text="Monitor Camera"
 
-    <Button
-        android:id="@+id/moncamera"
-        android:layout_width="256dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="#FFFFFF"
-        android:text="Monitor Camera"
+       android:textColor="#000000"
+       android:textSize="24sp"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/bnall" />
 
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bnall" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

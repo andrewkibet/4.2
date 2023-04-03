@@ -1,7 +1,6 @@
 package com.example.a42;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
+import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,17 +8,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+
+import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -27,12 +29,14 @@ public class CameraActivity extends AppCompatActivity {
     // private static final String TAG = CameraActivity.class.getSimpleName();
 
     private CameraManager mCameraManager;
-
     private CameraManager.AvailabilityCallback mCameraCallback;
     private Context mContext;
-   // private static final String TAG = CameraStateReceiver.class.getSimpleName();
+    private static final String TAG = MyService.class.getSimpleName();
     private static final String CHANNEL_ID = "camera_channel";
     private static final int NOTIFICATION_ID = 1;
+    private PackageManager pm;
+
+
 
 
     @Override
@@ -40,10 +44,9 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Camera Manager");
-
         mContext = this;
+        pm = getPackageManager();
+
 
         // Get the CameraManager instance
         mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
@@ -64,7 +67,7 @@ public class CameraActivity extends AppCompatActivity {
                 // Create a notification to indicate that the camera is unavailable
                 // Check if notification channel is null
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel channel = new NotificationChannel("My Notification", "My Not", NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Camera Channel", NotificationManager.IMPORTANCE_DEFAULT);
                     NotificationManager manager = getSystemService(NotificationManager.class);
                     if (manager != null) {
                         manager.createNotificationChannel(channel);
@@ -74,30 +77,37 @@ public class CameraActivity extends AppCompatActivity {
                     }
                 }
 
+                // Get the list of currently running processes
+                ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = activityManager.getRunningAppProcesses();
 
-                PackageManager pm  = getPackageManager();
+                // Loop through the list to find the process that is using the camera
+                String packageName = "";
+                for (ActivityManager.RunningAppProcessInfo processInfo : runningAppProcesses) {
+                    String[] pkgList = processInfo.pkgList;
+                    for (String pkg : pkgList) {
+                        if (pkg.equals("com.android.camera")) {
+                            packageName = processInfo.processName;
+                            break;
+                        }
+                    }
+                    if (!packageName.isEmpty()) {
+                        break;
+                    }
+                }
+
+                // Get the application name
                 String[] packageNames = pm.getPackagesForUid(android.os.Process.myUid());
-                String packageName = (packageNames!= null && packageNames.length> 0)? packageNames[0] :"";
-                String appName ="";
+                 packageName = (packageNames!= null && packageNames.length> 0)? packageNames[0] :"";
+
+                String appName = "";
+                PackageManager pm = getPackageManager();
                 try {
-                    ApplicationInfo appinfo = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
-                    appName = pm.getApplicationLabel(appinfo).toString();
+                    ApplicationInfo appInfo = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+                    appName = pm.getApplicationLabel(appInfo).toString();
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
-                Intent intent = new Intent(mContext, Notification.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                // Create a PendingIntent for the notification
-                PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-
-
-
-
-
-
                 // Build the notification
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(CameraActivity.this, "My Notificatio")
                         .setContentTitle("Camera Accessed")
