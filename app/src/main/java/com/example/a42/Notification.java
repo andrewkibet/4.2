@@ -10,6 +10,7 @@ import android.app.NotificationManager;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
@@ -36,6 +37,9 @@ public class Notification extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent serviceIntent = new Intent(this, MyService.class);
+        startService(serviceIntent);
 
         // Check if the user has granted permission to access the camera
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -161,6 +165,15 @@ public class Notification extends AppCompatActivity {
                 Toast.makeText(this, "Permission denied. Closing the app.", Toast.LENGTH_SHORT).show();
                 finish();
             }
+        }
+    }
+
+    public static class Builder {
+        public Builder(Context context, String channelId) {
+        }
+
+        public android.app.Notification.Builder setContentTitle(String my_app) {
+            return null;
         }
     }
 }

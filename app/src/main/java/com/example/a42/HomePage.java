@@ -1,5 +1,6 @@
 package com.example.a42;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -16,7 +17,10 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-       // getSupportActionBar().setTitle("Home");
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Home");
+
 
         bn = (Button) findViewById(R.id.moncamera);
         allapps=(Button) findViewById(R.id.bnall);

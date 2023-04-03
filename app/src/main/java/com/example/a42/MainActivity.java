@@ -1,5 +1,6 @@
 package com.example.a42;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -28,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("All Apps");
+
 
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         listView = findViewById(R.id.listview);

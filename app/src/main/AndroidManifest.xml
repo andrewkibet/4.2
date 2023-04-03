@@ -49,7 +49,7 @@
             android:name=".PermissionM_Activity"
             android:exported="false" />
         <activity
-            android:name=".HomePage"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".AudioActivity"
@@ -59,7 +59,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".HomePage"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

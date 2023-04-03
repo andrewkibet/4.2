@@ -15,6 +15,7 @@
         android:id="@+id/icon_id"/>
     <LinearLayout
         android:layout_width="wrap_content"
+        android:id="@+id/yote"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginLeft="5dp"
@@ -47,6 +48,7 @@
 
 
         </LinearLayout>
+
 
         <TextView
             android:id="@+id/app_packageid"
