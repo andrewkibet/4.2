@@ -46,7 +46,7 @@
         android:theme="@style/Theme.42"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".CameraActivity"
             android:exported="false" />
         <activity
             android:name=".PermissionM_Activity"
@@ -73,7 +73,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".CameraActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
