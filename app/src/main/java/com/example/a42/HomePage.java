@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class HomePage extends AppCompatActivity {
-    private Button bn,allapps,pm;
+    private Button bn,allapps,pm,btn;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -23,6 +23,7 @@ public class HomePage extends AppCompatActivity {
 
 
         bn = (Button) findViewById(R.id.moncamera);
+        btn = findViewById(R.id.btn_whitelist);
         allapps=(Button) findViewById(R.id.bnall);
         pm =(Button) findViewById(R.id.bnpm);
         allapps.setOnClickListener(new View.OnClickListener() {
@@ -31,6 +32,13 @@ public class HomePage extends AppCompatActivity {
                 Intent  i = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(i);
 
+            }
+        });
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
             }
         });
 
